@@ -3,10 +3,6 @@ import 'package:example/src/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_linkedin_login/simple_linkedin_login.dart';
 
-const String CLIENT_ID = '78fiyvt2a12wcg';
-const String CLIENT_SECRET = 'f2s74rjUqc6JkANb';
-const String REDIRECT_URL = 'https://www.rockersinfo.com';
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,9 +30,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     LinkedInLoginClient.initialize(
       context,
-      clientId: CLIENT_ID,
-      clientSecret: CLIENT_SECRET,
-      redirectUri: REDIRECT_URL,
+      clientId: 'CLIENT_ID',
+      clientSecret: 'CLIENT_SECRET',
+      redirectUri: 'REDIRECT_URL',
     );
     super.initState();
   }
