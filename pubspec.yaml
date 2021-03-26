@@ -1,0 +1,31 @@
+name: simple_linkedin_login
+description: Linked in login client to help with login into a flutter app easily.
+version: 0.0.1
+author: Harshvardhan Joshi<harsh.rockersinfo@gmail.com>
+homepage:
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  http: ^0.13.1
+  webview_flutter: ^2.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/vector_graphics/
