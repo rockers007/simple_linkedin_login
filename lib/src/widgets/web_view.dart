@@ -9,13 +9,11 @@ import '../utils/url_helper.dart';
 ///
 class LinkedInWebView extends StatefulWidget {
   final String clientId, clientSecret, redirectUri;
-  final bool clearDataAfterSession;
 
   LinkedInWebView({
     @required this.clientId,
     @required this.clientSecret,
     @required this.redirectUri,
-    this.clearDataAfterSession = true,
   });
 
   @override
@@ -23,13 +21,8 @@ class LinkedInWebView extends StatefulWidget {
 }
 
 class _LinkedInWebViewState extends State<LinkedInWebView> {
-  WebViewController _controller;
-
   @override
   void dispose() {
-    if (widget.clearDataAfterSession) {
-      _controller.clearCache();
-    }
     super.dispose();
   }
 
@@ -41,8 +34,11 @@ class _LinkedInWebViewState extends State<LinkedInWebView> {
         clientSecret: widget.clientSecret,
         redirectUri: widget.redirectUri,
       ),
-      onWebViewCreated: (controller) => _controller = controller,
       onPageStarted: _urlChanged,
+      onWebViewCreated: (controller) {
+        final cookieManager = CookieManager();
+        cookieManager.clearCookies();
+      },
     );
   }
 

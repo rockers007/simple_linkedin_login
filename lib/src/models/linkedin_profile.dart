@@ -44,11 +44,9 @@ class LinkedInProfile {
   /// getter for last name value
   String get lastName => lastNameHandle?.name;
 
-  /// getter for preferred locale
-  String get preferredLocale => firstNameHandle?.country;
-
-  /// getter for preferred language
-  String get preferredLanguage => firstNameHandle?.language;
+  /// getter for full name value
+  String get fullName =>
+      '$firstName${lastName != null && lastName.isNotEmpty ? ' $lastName' : ''}';
 
   /// getter for profile picture url value
   String get profilePictureUrl => profilePictureHandle?.profilePictureUrl;
@@ -66,8 +64,7 @@ class LinkedInProfile {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "firstName": firstNameHandle.toJson(),
         "lastName": lastNameHandle.toJson(),
@@ -128,8 +125,8 @@ class LocalizedString {
   }
 
   Map<String, dynamic> toJson() => {
-    "en_US": englishUS,
-  };
+        "en_US": englishUS,
+      };
 }
 
 /// A container for user's preferred country & language
@@ -169,8 +166,8 @@ class ProfilePictureHandle {
   String displayImage;
   DisplayImage profilePictureDisplayImageHandle;
 
-  String get profilePictureUrl => profilePictureDisplayImageHandle
-      ?.elements?.first?.identifiers?.first?.identifier;
+  String get profilePictureUrl =>
+      profilePictureDisplayImageHandle?.firstIdentifier;
 
   static ProfilePictureHandle fromJson(Map<String, dynamic> json) {
     if (json == null || json.isEmpty) {
@@ -201,6 +198,8 @@ class DisplayImage {
 
   Paging paging;
   List<Element> elements;
+
+  String get firstIdentifier => elements?.first?.firstIdentifier;
 
   static DisplayImage fromJson(Map<String, dynamic> json) {
     if (json == null || json.isEmpty) {
@@ -235,6 +234,8 @@ class Element {
   String authorizationMethod;
   Data data;
   List<Identifier> identifiers;
+
+  String get firstIdentifier => identifiers?.first?.identifier;
 
   static Element fromJson(Map<String, dynamic> json) {
     if (json == null || json.isEmpty) {
@@ -316,8 +317,7 @@ class ArtifactStillImage {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "mediaType": mediaType,
         "rawCodecSpec": rawCodecSpec.toJson(),
         "displaySize": displaySize.toJson(),
@@ -346,10 +346,10 @@ class DimensionAspect {
   }
 
   Map<String, dynamic> toJson() => {
-    "widthAspect": widthAspect,
-    "heightAspect": heightAspect,
-    "formatted": formatted,
-  };
+        "widthAspect": widthAspect,
+        "heightAspect": heightAspect,
+        "formatted": formatted,
+      };
 }
 
 class DisplaySize {
@@ -372,9 +372,9 @@ class DisplaySize {
   }
 
   Map<String, dynamic> toJson() => {
-    "width": width,
-    "height": height,
-  };
+        "width": width,
+        "height": height,
+      };
 }
 
 class RawCodecSpec {
@@ -397,9 +397,9 @@ class RawCodecSpec {
   }
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "type": type,
-  };
+        "name": name,
+        "type": type,
+      };
 }
 
 class StorageSize {
@@ -422,9 +422,9 @@ class StorageSize {
   }
 
   Map<String, dynamic> toJson() => {
-    "width": width,
-    "height": height,
-  };
+        "width": width,
+        "height": height,
+      };
 }
 
 class Identifier {
@@ -459,13 +459,13 @@ class Identifier {
   }
 
   Map<String, dynamic> toJson() => {
-    "identifier": identifier,
-    "index": index,
-    "mediaType": mediaType,
-    "file": file,
-    "identifierType": identifierType,
-    "identifierExpiresInSeconds": identifierExpiresInSeconds,
-  };
+        "identifier": identifier,
+        "index": index,
+        "mediaType": mediaType,
+        "file": file,
+        "identifierType": identifierType,
+        "identifierExpiresInSeconds": identifierExpiresInSeconds,
+      };
 }
 
 class Paging {
@@ -528,8 +528,7 @@ class ProfileError {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "message": message,
         "status": statusCode,
         "serviceErrorCode": errorCode,

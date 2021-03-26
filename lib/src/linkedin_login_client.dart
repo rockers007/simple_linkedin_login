@@ -65,13 +65,9 @@ class LinkedInLoginClient {
   ///   similar to this.
   BuildContext context;
 
-  static Future<String> loginForAccessToken({
-    bool clearDataAfterSession = true,
-  }) {
+  static Future<String> loginForAccessToken() {
     _checkInst();
-    return _instance._loginForAccessToken(
-      clearDataAfterSession: clearDataAfterSession,
-    );
+    return _instance._loginForAccessToken();
   }
 
   static void _checkInst() {
@@ -82,9 +78,7 @@ class LinkedInLoginClient {
           description: 'You must call the initialize() first');
   }
 
-  Future<String> _loginForAccessToken({
-    bool clearDataAfterSession = true,
-  }) async {
+  Future<String> _loginForAccessToken() async {
     final authorizationData = await showDialog(
         context: context,
         barrierDismissible: false,
@@ -93,7 +87,6 @@ class LinkedInLoginClient {
             clientId: clientId,
             clientSecret: clientSecret,
             redirectUri: redirectUri,
-            clearDataAfterSession: clearDataAfterSession,
           );
         }).catchError((error) {
       if (error is LinkedInAuthError)
@@ -101,8 +94,9 @@ class LinkedInLoginClient {
       else
         throw LinkedInAuthError(description: error.toString());
     });
-    if (authorizationData == null)
+    if (authorizationData == null) {
       throw LinkedInAuthError(description: 'unknown error');
+    }
     if (authorizationData is AuthSuccess) {
       accessToken = await getAccessToken(
               clientId: clientId,
@@ -122,22 +116,19 @@ class LinkedInLoginClient {
   }
 
   static Future<LinkedInProfile> getProfile({
-    bool clearDataAfterSession = true,
     bool forceLogin = false,
   }) async {
     _checkInst();
     return _instance._getProfile(
-      clearDataAfterSession: clearDataAfterSession,
       forceLogin: forceLogin,
     );
   }
 
   Future<LinkedInProfile> _getProfile({
-    bool clearDataAfterSession = true,
     bool forceLogin = false,
   }) async {
     if (accessToken == null || forceLogin) {
-      await loginForAccessToken(clearDataAfterSession: clearDataAfterSession);
+      await loginForAccessToken();
     }
     return await getProfileResponse(accessToken: accessToken)
         .catchError((error) {
@@ -149,22 +140,19 @@ class LinkedInLoginClient {
   }
 
   static Future<LinkedInEmail> getEmail({
-    bool clearDataAfterSession = true,
     bool forceLogin = false,
   }) {
     _checkInst();
     return _instance._getEmail(
-      clearDataAfterSession: clearDataAfterSession,
       forceLogin: forceLogin,
     );
   }
 
   Future<LinkedInEmail> _getEmail({
-    bool clearDataAfterSession = true,
     bool forceLogin = false,
   }) async {
     if (accessToken == null || forceLogin) {
-      await loginForAccessToken(clearDataAfterSession: clearDataAfterSession);
+      await loginForAccessToken();
     }
     return await getEmailResponse(accessToken: accessToken).catchError((error) {
       if (error is LinkedInAuthError)
