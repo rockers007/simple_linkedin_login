@@ -4,6 +4,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../models/models.dart';
 import '../utils/url_helper.dart';
 
+/// A widget wrapping flutter web view plugin
+/// to show the login & authorization pages
+///
 class LinkedInWebView extends StatefulWidget {
   final String clientId, clientSecret, redirectUri;
   final bool clearDataAfterSession;

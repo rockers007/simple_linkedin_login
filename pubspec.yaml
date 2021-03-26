@@ -2,7 +2,8 @@ name: simple_linkedin_login
 description: Linked in login client to help with login into a flutter app easily.
 version: 0.0.1
 author: Harshvardhan Joshi<harsh.rockersinfo@gmail.com>
-homepage:
+repository: https://bitbucket.org/harshvardhan_joshi/simple_linkedin_login
+homepage: https://www.rockersinfo.com/
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -12,7 +13,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  http: ^0.13.1
+  # to use http client methods
+  http: ^0.13.0
+
+  # to show web pages within the app
   webview_flutter: ^2.0.2
 
 dev_dependencies:
