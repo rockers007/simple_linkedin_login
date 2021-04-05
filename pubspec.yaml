@@ -1,7 +1,7 @@
 name: simple_linkedin_login
 description: Linked-in login client to help with login into a flutter app easily.
-version: 0.1.0
-repository: https://bitbucket.org/harshvardhan_joshi/simple_linkedin_login
+version: 0.1.0+1
+repository: https://github.com/rockers007/simple_linkedin_login.git
 homepage: https://www.rockersinfo.com/
 
 environment:

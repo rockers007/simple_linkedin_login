@@ -151,8 +151,11 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 ```
 
-## Contribution/Support
-File an issue on repository, if something is not working as expected or you want a new feature to be added.
-All help and Pull requests are most welcome.
+## Issues & Support
 
-Standard coding practices & a polite attitude are expected & served.
+- File an issue on the repository, if something is not working as expected.
+   - Please Use `[Bug]` or `[Issue]` tags in issue titles.
+   - Please follow the issue template used in flutter-sdk's repository, may be we'll integrate that here as well.
+
+- File an issue in the repository, If you have any suggestions and/or feature requests
+   - Please Use `[Suggestion]` or `[Request]` tags in issue titles.
