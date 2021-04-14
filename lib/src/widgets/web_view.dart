@@ -26,13 +26,19 @@ class _LinkedInWebViewState extends State<LinkedInWebView> {
     super.dispose();
   }
 
+  String get clientId => widget.clientId;
+
+  String get clientSecret => widget.clientSecret;
+
+  String get redirectUri => widget.redirectUri;
+
   @override
   Widget build(BuildContext context) {
     return WebView(
       initialUrl: getAuthorizationUrl(
-        clientId: widget.clientId,
-        clientSecret: widget.clientSecret,
-        redirectUri: widget.redirectUri,
+        clientId: clientId,
+        clientSecret: clientSecret,
+        redirectUri: redirectUri,
       ),
       onPageStarted: _urlChanged,
       onWebViewCreated: (controller) {
@@ -43,27 +49,56 @@ class _LinkedInWebViewState extends State<LinkedInWebView> {
   }
 
   void _urlChanged(String url) {
-    if (url.startsWith(widget.redirectUri)) {
-      Uri uri = Uri.parse(url);
+    // extract URI
+    Uri uri = Uri.parse(url);
+
+    if (url.startsWith(redirectUri)) {
+      // extract query parameters, for access code
       final queryParameters = uri.queryParameters;
-
-      final hasSuccessCode = queryParameters.containsKey('code');
-      final hasErrorCode = queryParameters.containsKey('error');
-
-      dynamic result;
-      if (queryParameters == null) {
-        result = LinkedInAuthError(
-          description:
-              'Empty query parameters found in response of the process',
-          errorType: LinkedInAuthErrorType.EmptyResponse,
-          statusCode: EMPTY_RESPONSE_STATUS_CODE,
-        );
-      } else if (hasSuccessCode) {
-        result = AuthSuccess.fromJson(queryParameters);
-      } else if (hasErrorCode) {
-        result = LinkedInAuthError.fromJson(queryParameters);
-      } else {}
-      Navigator.pop(context, result);
+      //handle redirection
+      _handleRedirection(queryParameters);
+    } else if (url.contains(AUTH_CANCEL_LINK_SUFFIX)) {
+      // handle cancellation
+      _handleAuthCancel();
+    } else if (url.contains(LOGIN_CANCEL_LINK_SUFFIX)) {
+      // handle cancellation
+      _handleLoginCancel();
     }
+  }
+
+  void _handleLoginCancel() {
+    dynamic result = LinkedInAuthError(
+      errorType: LinkedInAuthErrorType.LoginCancelledByUser,
+      description: 'Login cancelled by user',
+    );
+    Navigator.pop(context, result);
+  }
+
+  void _handleAuthCancel() {
+    dynamic result = LinkedInAuthError(
+      errorType: LinkedInAuthErrorType.AuthorizationCancelledByUser,
+      description: 'Authorization cancelled by user',
+    );
+    Navigator.pop(context, result);
+  }
+
+  void _handleRedirection(Map<String, String> queryParameters) {
+    final hasSuccessCode = queryParameters.containsKey('code');
+    final hasErrorCode = queryParameters.containsKey('error');
+
+    dynamic result;
+
+    if (queryParameters == null) {
+      result = LinkedInAuthError(
+        description: 'Empty query parameters found in response of the process',
+        errorType: LinkedInAuthErrorType.EmptyResponse,
+        statusCode: EMPTY_RESPONSE_STATUS_CODE,
+      );
+    } else if (hasSuccessCode) {
+      result = AuthSuccess.fromJson(queryParameters);
+    } else if (hasErrorCode) {
+      result = LinkedInAuthError.fromJson(queryParameters);
+    }
+    Navigator.pop(context, result);
   }
 }
