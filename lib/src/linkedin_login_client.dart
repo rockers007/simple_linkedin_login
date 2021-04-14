@@ -79,7 +79,7 @@ class LinkedInLoginClient {
   }
 
   Future<String> _loginForAccessToken() async {
-    final authorizationData = await showDialog(
+    final result = await showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) {
@@ -94,24 +94,25 @@ class LinkedInLoginClient {
       else
         throw LinkedInAuthError(description: error.toString());
     });
-    if (authorizationData == null) {
+    if (result == null) {
       throw LinkedInAuthError(description: 'unknown error');
     }
-    if (authorizationData is AuthSuccess) {
+    if (result is AuthSuccess) {
       accessToken = await getAccessToken(
               clientId: clientId,
               clientSecret: clientSecret,
               redirectUri: redirectUri,
-              code: authorizationData.code)
+              code: result.code)
           .catchError((error) {
-        if (error is LinkedInAuthError)
+        if (error is LinkedInAuthError) {
           throw error;
-        else
+        } else {
           throw LinkedInAuthError(description: error.toString());
+        }
       });
       return accessToken;
     } else {
-      throw (authorizationData as LinkedInAuthError);
+      throw result;
     }
   }
 

@@ -4,6 +4,8 @@ import 'url_resources.dart';
 
 const String PROFILE_SCOPE_LITE = 'r_liteprofile%20r_emailaddress';
 const String DUMMY_STATE_VALUE = 'DCEeFWf45A53sdfKef424';
+const String AUTH_CANCEL_LINK_SUFFIX = 'oauth/v2/authorization-cancel';
+const String LOGIN_CANCEL_LINK_SUFFIX = 'oauth/v2/login-cancel';
 
 /// A utility methods to get url for requesting access token
 String getAccessTokenUrl({
